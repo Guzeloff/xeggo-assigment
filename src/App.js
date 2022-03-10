@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import Login from "./components/Login";
+import Todo from "./components/Todo";
+import NotFound from "./components/NotFound";
+
+export const PrivateRoute = (children) => {
+  const user = useSelector((state) => state.user);
+
+  return user ? <Todo /> : <Navigate to="/" />;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route>
+          <Route
+            path="/todo"
+            element={
+              <PrivateRoute>
+                <Todo />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
