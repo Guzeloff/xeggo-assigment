@@ -93,3 +93,8 @@ form label {
   font-size: 29px;
   margin: 20px 0px;
 }
+.logout-btn {
+  position: absolute;
+  top: 5%;
+  right: 2%;
+}

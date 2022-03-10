@@ -7,8 +7,9 @@ import FactCheckIcon from "@mui/icons-material/FactCheck";
 import Alert from "@mui/material/Alert";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../store/slices/userSlice";
+import { addTodo, logout } from "../store/slices/userSlice";
 import SingleTodo from "./SingleTodo";
+import { Navigate } from "react-router";
 
 function Todo() {
   const [todo, setTodo] = useState("");
@@ -16,6 +17,7 @@ function Todo() {
   const [error, setError] = useState(false);
 
   const todos = useSelector((state) => state.todos);
+  const user = useSelector((state) => state.user);
 
   const handleClick = () => {
     if (todo === "") {
@@ -28,6 +30,13 @@ function Todo() {
 
       dispatch(addTodo(newTodo));
       setError(false);
+    }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    if (!user) {
+      Navigate("/");
     }
   };
   return (
@@ -55,6 +64,11 @@ function Todo() {
             <SingleTodo {...todo} key={index}></SingleTodo>
           ))}
         </div>
+      </div>
+      <div className="logout-btn">
+        <Button variant="contained" color="secondary" onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
     </div>
   );
